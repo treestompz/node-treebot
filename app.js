@@ -16,7 +16,15 @@ bot.addListener("message#", function(sender, channel, text, message) {
     if(cmds[0].lastIndexOf(config.botName, 0) != 0) {
         return;
     }
-    if(cmds[1] == "stop") {
+    if(cmds[1] == "join") {
+        if(sender != "treestompz") { return; }
+        if(cmds.length != 3) {
+            bot.say(channel, sender + ", please use: join <channel>");
+            return;
+        }
+        bot.join(cmds[2]);
+    }
+    else if(cmds[1] == "stop") {
         if(cmds.length != 3) {
             bot.say(channel, sender + ", please use: stop <screen>");
             return;
