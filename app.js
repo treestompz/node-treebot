@@ -11,6 +11,10 @@ var bot = new irc.Client(config.server, config.botName, {
     channels: config.channels
 });
 
+bot.addListener('error', function(message) {
+    console.log('error: ', message);
+});
+
 bot.addListener("message#", function(sender, channel, text, message) {
     var cmds = text.split(" ");
     if(cmds[0].lastIndexOf(config.botName, 0) != 0) {
