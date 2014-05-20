@@ -27,8 +27,7 @@ bot.addListener("message#", function(sender, channel, text, message) {
             return;
         }
         bot.join(cmds[2]);
-    }
-    else if(cmds[1] == "stop") {
+    } else if(cmds[1] == "stop") {
         if(cmds.length != 3) {
             bot.say(channel, sender + ", please use: stop <screen>");
             return;
@@ -40,6 +39,29 @@ bot.addListener("message#", function(sender, channel, text, message) {
             else if(code == 1) {
                 bot.say(channel, sender+": " + output);
             }
+        });
+    } else if(cmds[1] == "list") {
+        shell.exec("screen -ls", function(code, output) {
+            var letters = output.split("");
+            var screens = [];
+            for(var i = 0; i < letters.length; i++) {
+                var letter = parseInt(letters[i]);
+                // If it is a number
+                if(!isNaN(letter)) {
+                    // If the next letter is a .
+                    if(letters[i + 1] == ".") {
+                        // What comes next is the screen name   
+                        i += 2;
+                        var screenname = "";
+                        while(letters[i] != "(") {
+                            screenname += letters[i];
+                            i++;
+                        }
+                        screens.push(" " + screenname.trim());
+                    }
+                }
+            }
+            bot.say(channel, "Screens:" + screens);
         });
     }
 })
